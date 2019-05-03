@@ -21,14 +21,25 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
+    get: function (req, res) {
+      models.users.get((err, results ) => {
+        if (err) {
+          console.log(err)
+        } else {
+          res.write(results)
+          res.end();
+        }
+      });
+    },
     post: function (req, res) {
       console.log("the beginning")
-      var postUser = req.body.username;
-      models.messages.post(postUser, (err) => {
+      var postUser = req.body;
+      console.log("THIS IS POSTUSER,",postUser)
+      models.users.post(postUser, (err) => {
         if (err) {
-          console.log('post req error');
+          throw 'post req error';
         } else {
+          console.log("AYAYAYAYAYAYAY!!")
           res.end();
         }
       });

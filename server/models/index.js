@@ -20,9 +20,20 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {},
+    get: function (callback) {
+      db.query('select * from username', (err, results) => {
+        if(err) {
+          console.log(err)
+        } else {
+          callback(null, results);
+        }
+      });
+    },
     post: function (data, callback) {
-      db.query(`insert into username (username) values(${data})`, (err) => {
+      // console.log('THIS IS DATA: ', data);
+      var userNameToUse = `insert into username (username) values ('${JSON.stringify(data[0].username)}')`;
+      console.log(userNameToUse, typeof userNameToUse);
+      db.query(userNameToUse, (err) => {
         if (err) {
           console.log('you suck ;) ');
         } else {
